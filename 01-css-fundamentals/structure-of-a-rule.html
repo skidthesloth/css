@@ -1,11 +1,17 @@
+<!-- In HTML, the doctype is required <!doctype html> preamble found at the top of all documents. Its sole purpose is to prevent a browser from switching into so-called "quirks mode" when rendering a document; that is, the <!doctype html> doctype ensures that the browser makes a best-effort attempt at following the relevant specifications, rather than using a different rendering mode that is incompatible with some specifications. The doctype is case-insensitive. The convention of MDN code examples is to use lowercase, but it's also common to write it as <!DOCTYPE html>. -->
 <!DOCTYPE html>
+<!-- The <html> HTML element epresents the root (top-level element) of an HTML document, so it is also referred to as the root element. All other elements must be descendants of this element. There can be only one <html> element in a document. -->
 <html>
     <!-- The <head> HTML element contains machine-readable information [ metadata ] about the document, like its title, scripts, and style sheets. There can be only one <head> element in an HTML document. -->
     <!-- The <head> HTML element primarily holds information for machine processing, not human-readbility. For human-visible information, like top-level headings and listed authors, see the <header> element.  -->
     <head>
-        <!-- The  -->
-        <meta charset="utf-8" />
+        <!-- The <meta> HTML element represents metadata that cannot be represented by other meta-related elements, such as <base>, <link>, <script>, <style>, or <title>. -->
+        <!-- The charset attribute declares the document's character encoding. If the attribute is present, its value must be an ASCII case-insensitive match for the string "utf-8", because UTF-8 is the only valid encoding for HTML5 documents. <meta> elements which declare a character encoding must be located entirely within the first 1024 bytes of the document. -->
+        <meta http-equiv="refresh" content="5; https://youtube.com" charset="utf-8" /> 
         <!-- The <title> HTML element defines the  the document's title that is shown in a browser's title bar or a page's tab. It only contains text; HTML tags within the element, if any, are also treated as plain text. -->
         <title>The structure of a rule</title>
     </head>
 </html>
+
+
+
