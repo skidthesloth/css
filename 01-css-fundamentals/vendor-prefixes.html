@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Vendor Prefixes</title>
+    <style>
+        /* Basic Reset and Font Styling */
+        body {
+            font-family: 'Inter', sans-serif; /* Using Inter as requested, with sans-serif fallback */
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px; /* Add some default padding for mobile */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+        }
+
+        /* Main Container Styling */
+        .container {
+            max-width: 800px;
+            margin: 2rem auto; /* Center the container horizontally with vertical margin */
+            padding: 2rem;
+            background-color: #ffffff;
+            border-radius: 12px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box; /* Ensure padding doesn't expand width beyond max-width */
+        }
+
+        /* Heading Styles */
+        h1, h2, h3 {
+            color: #1a202c;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.25rem; /* Equivalent to text-4xl */
+            font-weight: bold; /* Equivalent to font-bold */
+        }
+
+        h2 {
+            font-size: 1.75rem; /* Equivalent to text-3xl */
+            font-weight: 600; /* Equivalent to font-semibold */
+            margin-top: 1.5rem;
+        }
+
+        h3 {
+            font-size: 1.5rem; /* Equivalent to text-2xl */
+            font-weight: 600; /* Equivalent to font-semibold */
+            margin-top: 1.25rem;
+        }
+
+        /* Paragraph Styling */
+        p {
+            margin-bottom: 1rem;
+        }
+
+        /* List Styling */
+        ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Inline Code Styling */
+        code {
+            background-color: #e2e8f0;
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            color: #c53030; /* A reddish color for inline code */
+        }
+
+        /* Preformatted Text (Code Blocks) Styling */
+        pre {
+            background-color: #1a202c;
+            color: #a0aec0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto; /* Enable horizontal scrolling for long lines */
+            margin-bottom: 1rem;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+
+        pre code {
+            background-color: transparent; /* Override inline code background */
+            padding: 0;
+            color: inherit; /* Inherit color from pre */
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse; /* Collapse borders between cells */
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            overflow: hidden; /* Ensures rounded corners apply to table content */
+        }
+
+        th, td {
+            border: 1px solid #cbd5e0;
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        th {
+            background-color: #edf2f7;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f7fafc; /* Zebra striping for table rows */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .container {
+                margin: 1rem auto;
+                padding: 1rem;
+            }
+            h1 {
+                font-size: 1.75rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            h3 {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Understanding Vendor Prefixes</h1>
+
+        <p>Vendor prefixes are special labels, often with hyphens, that browser vendors used to add to experimental or nonstandard CSS properties and JavaScript APIs. For example, you might see <code>-webkit-transition</code> or <code>-moz-transform</code>.</p>
+
+        <h2>What Are Vendor Prefixes?</h2>
+        <p>They typically follow the format of a hyphen, a label (like <code>webkit</code>), and another hyphen (e.g., <code>-webkit-</code>). They were a way for browser makers to introduce new features that were still under development or were unique to their browser.</p>
+
+        <h2>Why Were They Used?</h2>
+        <ul>
+            <li><strong>Experimentation:</strong> They allowed browser vendors to test new CSS properties and JavaScript APIs in real-world scenarios.</li>
+            <li><strong>Preventing Lock-in:</strong> The idea was to let developers experiment without the browser being locked into a specific, potentially changing, behavior before a feature became a standard. This helped prevent compatibility issues that could arise if a feature changed after widespread adoption.</li>
+        </ul>
+
+        <h2>Common CSS Vendor Prefixes (Historically)</h2>
+        <p>You might find these in older codebases:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Prefix</th>
+                    <th>Vendor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>-webkit-</code></td>
+                    <td>WebKit-based browsers (e.g., Chrome, Safari, newer Opera and Edge, most iOS browsers)</td>
+                </tr>
+                <tr>
+                    <td><code>-moz-</code></td>
+                    <td>Gecko-based browsers (e.g., Mozilla Firefox)</td>
+                </tr>
+                <tr>
+                    <td><code>-o-</code></td>
+                    <td>Older, pre-WebKit versions of Opera</td>
+                </tr>
+                <tr>
+                    <td><code>-ms-</code></td>
+                    <td>Internet Explorer and Microsoft Edge (before it switched to Chromium)</td>
+                </tr>
+                <tr>
+                    <td><code>-epub-</code></td>
+                    <td>International Digital Publishing Forum ePub format</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Example CSS Usage (Older Code - All instances of vendor prefixes are shown below):</h3>
+        <pre><code><span style="color: #c53030;">-webkit-</span>transition: all 4s ease; /* For WebKit browsers */
+<span style="color: #c53030;">-moz-</span>transition: all 4s ease;    /* For Firefox */
+<span style="color: #c53030;">-ms-</span>transition: all 4s ease;     /* For Internet Explorer/Edge */
+<span style="color: #c53030;">-o-</span>transition: all 4s ease;      /* For Opera */
+transition: all 4s ease;         /* The standard way */</code></pre>
+
+        <h3>Modern Equivalent:</h3>
+        <p>Today, you only need the standard property:</p>
+        <pre><code>transition: all 4s ease;</code></pre>
+
+        <h2>API Prefixes</h2>
+        <p>Vendor prefixes were also applied to JavaScript APIs:</p>
+        <ul>
+            <li><strong>Interface Prefixes:</strong> If an entire API interface was experimental, its name was prefixed with an uppercase prefix (e.g., <code>WebKit</code>, <code>Moz</code>, <code>O</code>, <code>MS</code>).</li>
+            <li><strong>Property and Method Prefixes:</strong> If a specific property or method within a standard interface was experimental, it used a lowercase prefix (e.g., <code>webkitRequestAnimationFrame</code>).</li>
+        </ul>
+
+        <h3>Example JavaScript Usage (Older Code - All instances of vendor prefixes are shown below):</h3>
+        <pre><code>window.requestAnimationFrame =
+  window.requestAnimationFrame ||
+  window.<span style="color: #c53030;">moz</span>RequestAnimationFrame ||
+  window.<span style="color: #c53030;">webkit</span>RequestAnimationFrame ||
+  window.<span style="color: #c53030;">o</span>RequestAnimationFrame ||
+  window.<span style="color: #c53030;">ms</span>RequestAnimationFrame;</code></pre>
+
+        <h3>Modern Equivalent:</h3>
+        <p>Today, the standard method is widely supported:</p>
+        <pre><code>requestAnimationFrame(callback);</code></pre>
+
+        <h2>Why They Are No Longer Used (Mostly)</h2>
+        <p>While vendor prefixes aimed to help, they created new problems:</p>
+        <ul>
+            <li><strong>Widespread Adoption of Experimental Features:</strong> Developers often used prefixed features on production websites, even though they were experimental. This meant that when standards changed, these websites could break.</li>
+            <li><strong>Burden on Smaller Browsers:</strong> Smaller browser vendors were forced to implement other browsers' prefixes to ensure compatibility with popular websites, which was a significant overhead.</li>
+        </ul>
+
+        <h3>Current Approach:</h3>
+        <p>As of early 2023, vendor-prefixed CSS features are rare. Instead, experimental features are now typically "put behind a flag" in browser settings. This allows developers to manually enable and test upcoming features without affecting the general web, leading to faster standardization and fewer compatibility issues.</p>
+        <p>You are unlikely to write new code with vendor prefixes today, but you might encounter them in older or legacy codebases. In most cases, you can safely remove the prefixed versions and keep only the standard property or method.</p>
+    </div>
+</body>
+</html>
