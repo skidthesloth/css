@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Whitespace Sensitivity</title>
+    <style>
+        /* Basic styling for the page */
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: #f9fafb;
+            padding: 24px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #374151;
+            margin-top: 32px;
+            margin-bottom: 16px;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 8px;
+        }
+
+        p {
+            margin-bottom: 16px;
+        }
+
+        pre {
+            background-color: #f0f4f8;
+            /* Light blue-gray for code blocks */
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 16px;
+            overflow-x: auto;
+            /* Allows horizontal scrolling for long lines */
+            font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+            background-color: #e2e8f0;
+            /* Slightly darker for inline code */
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .note {
+            font-style: italic;
+            color: #6b7280;
+            font-size: 14px;
+            margin-top: 20px;
+            padding-left: 10px;
+            border-left: 3px solid #6b7280;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Understanding Whitespace Sensitivity in CSS</h1>
+
+        <p>
+            CSS is generally quite forgiving when it comes to whitespace. This means you have a lot of flexibility
+            in how you format your stylesheets, which can greatly improve readability and maintainability.
+            Let's explore how CSS handles whitespace, both between and within rules.
+        </p>
+
+        <h2>Whitespace within CSS Rules</h2>
+        <p>
+            CSS is largely insensitive to whitespace within rules. Any sequence of whitespace characters (spaces,
+            tabs, newlines) is collapsed to a single space for parsing purposes. This allows for various formatting
+            styles without affecting how the browser interprets the CSS.
+        </p>
+
+        <h3>Example: The "Rainbow" Rule</h3>
+        <p>
+            Consider a hypothetical CSS property <code>rainbow</code> with a list of values. You can format this rule
+            in multiple ways, all of which are valid:
+        </p>
+
+        <pre><code>/* All on one line */
+rainbow: infrared red orange yellow green blue indigo violet ultraviolet;
+
+/* Values on a new line */
+rainbow:
+infrared red orange yellow green blue indigo violet ultraviolet;
+
+/* Each value on its own line */
+rainbow:
+infrared
+red
+orange
+yellow
+green
+blue
+indigo
+violet
+ultraviolet
+;</code></pre>
+
+        <p>
+            As you can see, the only restriction is that the separating characters must be whitespace: an empty space,
+            a tab, or a newline, alone or in combination, as many as you like.
+        </p>
+
+        <h2>Whitespace between CSS Rules</h2>
+        <p>
+            Similarly, you can format a series of CSS rules with whitespace in any fashion you like. The browser will
+            parse them correctly regardless of the spacing. Here are five examples demonstrating this flexibility:
+        </p>
+
+        <pre><code>/* Minimal whitespace */
+html{color:black;}
+
+/* Standard formatting */
+body {background: white;}
+
+/* More spaced out */
+p {
+    color: gray;
+}
+
+/* Even more whitespace, with indentation */
+h2 {
+    color : silver ;
+}
+
+/* Highly verbose formatting, each part on a new line */
+ol
+{
+    color
+    :
+    silver
+    ;
+}</code></pre>
+
+        <p>
+            The first rule demonstrates how whitespace can be largely omitted. This is a common practice in
+            <strong>minified CSS</strong>, where all possible extraneous whitespace is removed, usually by
+            automated server-side scripts, to reduce file size and improve loading performance.
+        </p>
+        <p>
+            The subsequent rules progressively use more extravagant amounts of whitespace, illustrating that
+            the parser is robust enough to handle it. In the last rule, almost every part of the declaration
+            is placed on its own line.
+        </p>
+
+        <div class="note">
+            All of these approaches are valid. The best practice is to choose a formatting style that makes
+            the most sense for you and your team—one that is easiest to read and maintain—and stick with it
+            consistently throughout your stylesheets.
+        </div>
+    </div>
+
+</body>
+
+</html>
