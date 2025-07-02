@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleek Vanilla Calendar</title>
+    <!-- Link to Google Fonts for 'Inter' font, which is clean and modern -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS Variables for Theming (Inspired by Apple's UI) --- */
+        /* These variables allow for easy customization of the calendar's appearance. */
+        :root {
+            --background-color: #f0f2f5; /* Very light gray for the body background */
+            --container-bg-color: #ffffff; /* Pure white for the calendar card background */
+            --foreground-color: #1c1c1e; /* Dark charcoal for primary text */
+            --primary-color: #007aff; /* Apple's signature blue for selected states */
+            --primary-foreground-color: #ffffff; /* White text on primary blue background */
+            --accent-color: #e5f0ff; /* Very light blue for hover/today states */
+            --accent-foreground-color: #0056b3; /* Darker blue for text on accent background */
+            --muted-foreground-color: #8e8e93; /* Medium gray for secondary/muted text */
+            --border-color: #e0e0e0; /* Light gray for subtle borders */
+            --ring-color: #007aff; /* Focus ring color, matching primary blue */
+
+            --cell-size: 2.8rem; /* Slightly larger cell size for better touch targets and spacious feel */
+            --border-radius-sm: 0.25rem; /* Small border radius for elements */
+            --border-radius-md: 0.75rem; /* Medium border radius for the calendar container */
+            --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08); /* Subtle shadow for depth */
+            --shadow-medium: 0 6px 20px rgba(0, 0, 0, 0.1); /* Slightly more pronounced shadow for container */
+        }
+
+        /* --- Global Body Styles --- */
+        body {
+            font-family: 'Inter', sans-serif; /* Apply the Inter font */
+            margin: 0; /* Remove default body margin */
+            padding: 1.5rem; /* Add some padding around the content */
+            display: flex; /* Use flexbox for centering content */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            min-height: 100vh; /* Ensure body takes at least full viewport height */
+            background-color: var(--background-color); /* Apply background color */
+            color: var(--foreground-color); /* Apply default text color */
+            box-sizing: border-box; /* Include padding in element's total width and height */
+            -webkit-font-smoothing: antialiased; /* Enhance font rendering on macOS */
+            -moz-osx-font-smoothing: grayscale; /* Enhance font rendering on macOS */
+        }
+
+        /* --- Calendar Container Styling --- */
+        .calendar-container {
+            background-color: var(--container-bg-color); /* White background for the calendar card */
+            padding: 1.5rem; /* Internal padding */
+            border-radius: var(--border-radius-md); /* Rounded corners for the card */
+            box-shadow: var(--shadow-medium); /* Soft, subtle shadow for depth */
+            width: 100%; /* Take full width on small screens */
+            max-width: 26rem; /* Maximum width for larger screens */
+            box-sizing: border-box; /* Include padding in total size */
+            display: flex; /* Use flexbox for internal layout */
+            flex-direction: column; /* Stack elements vertically */
+            gap: 1rem; /* Space between calendar parts and selected date display */
+        }
+
+        /* --- Calendar Header (Month Navigation) --- */
+        .calendar-header {
+            display: flex; /* Flexbox for navigation elements */
+            align-items: center; /* Vertically align items */
+            justify-content: space-between; /* Space out elements */
+            height: var(--cell-size); /* Fixed height for the header */
+            padding: 0 0.5rem; /* Horizontal padding */
+            margin-bottom: 0.5rem; /* Space below the header */
+        }
+
+        .calendar-nav-button {
+            display: flex; /* Flexbox for centering icon */
+            align-items: center;
+            justify-content: center;
+            padding: 0; /* Remove default button padding */
+            border: none; /* No border */
+            background-color: transparent; /* Transparent background by default */
+            cursor: pointer; /* Indicate interactivity */
+            height: var(--cell-size); /* Match header height */
+            width: var(--cell-size); /* Make button square */
+            border-radius: 50%; /* Perfectly round buttons */
+            color: var(--muted-foreground-color); /* Muted color for icons */
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, opacity 0.2s ease-in-out; /* Smooth transitions */
+            user-select: none; /* Prevent text selection on button */
+            -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+        }
+
+        .calendar-nav-button:hover {
+            background-color: var(--accent-color); /* Light accent background on hover */
+            color: var(--accent-foreground-color); /* Darker accent text on hover */
+        }
+
+        .calendar-nav-button:disabled {
+            opacity: 0.4; /* Reduce opacity for disabled state */
+            cursor: not-allowed; /* Indicate not clickable */
+            background-color: transparent; /* Ensure no hover effect when disabled */
+            color: var(--muted-foreground-color); /* Keep muted color */
+        }
+
+        .calendar-nav-button svg {
+            width: 1.1rem; /* Slightly larger icon size */
+            height: 1.1rem;
+            stroke-width: 2; /* Standard SVG stroke width */
+        }
+
+        .calendar-caption-label {
+            font-size: 1.1rem; /* Larger font size for month/year */
+            font-weight: 600; /* Semi-bold font weight */
+            user-select: none; /* Prevent text selection */
+            color: var(--foreground-color); /* Primary text color */
+        }
+
+        /* --- Weekdays Header (Sun, Mon, Tue...) --- */
+        .calendar-weekdays {
+            display: flex; /* Flexbox for weekday names */
+            margin-top: 0.5rem; /* Space above weekdays */
+            border-bottom: 1px solid var(--border-color); /* Subtle separator line */
+            padding-bottom: 0.5rem; /* Padding below the separator */
+        }
+
+        .calendar-weekday {
+            flex: 1; /* Each weekday takes equal space */
+            text-align: center; /* Center the text */
+            font-size: 0.8rem; /* Smaller font size */
+            font-weight: 500; /* Medium font weight */
+            color: var(--muted-foreground-color); /* Muted gray color */
+            padding: 0.25rem 0; /* Vertical padding */
+            user-select: none; /* Prevent text selection */
+        }
+
+        /* --- Calendar Days Grid --- */
+        .calendar-days-grid {
+            display: grid; /* Use CSS Grid for the day layout */
+            grid-template-columns: repeat(7, 1fr); /* 7 columns, each taking equal fraction of space */
+            gap: 0.3rem; /* Small gap between day cells */
+            margin-top: 0.5rem; /* Space above the grid */
+        }
+
+        .calendar-day-button {
+            position: relative; /* For potential future absolute positioning of elements within */
+            display: flex; /* Flexbox for centering day number */
+            flex-direction: column; /* Stack content vertically if needed */
+            align-items: center; /* Center horizontally */
+            justify-content: center; /* Center vertically */
+            padding: 0; /* Remove default button padding */
+            border: none; /* No border */
+            background-color: transparent; /* Transparent background by default */
+            cursor: pointer; /* Indicate interactivity */
+            aspect-ratio: 1 / 1; /* Make cells perfectly square */
+            width: 100%; /* Fill grid cell width */
+            height: var(--cell-size); /* Fixed height, matching cell-size */
+            min-width: var(--cell-size); /* Minimum width */
+            font-size: 0.9rem; /* Slightly larger font for day numbers */
+            font-weight: normal; /* Normal font weight */
+            line-height: normal; /* Normal line height */
+            border-radius: 50%; /* Perfectly round day buttons for a sleek look */
+            color: var(--foreground-color); /* Default text color for days */
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smooth transitions */
+            user-select: none; /* Prevent text selection */
+            -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+        }
+
+        /* --- Specific Day States Styling --- */
+        .calendar-day-button:hover:not(.day-disabled):not(.day-selected-single):not(.day-outside) {
+            background-color: var(--accent-color); /* Light accent background on hover */
+            color: var(--accent-foreground-color); /* Darker accent text on hover */
+        }
+
+        .calendar-day-button.day-selected-single {
+            background-color: var(--primary-color); /* Primary blue background when selected */
+            color: var(--primary-foreground-color); /* White text when selected */
+            font-weight: 600; /* Bold text for selected day */
+            box-shadow: var(--shadow-light); /* Subtle shadow for selected state */
+        }
+
+        .calendar-day-button.day-today {
+            background-color: var(--accent-color); /* Accent background for today's date */
+            color: var(--accent-foreground-color); /* Accent text for today's date */
+            font-weight: 500; /* Medium bold for today */
+        }
+
+        /* If today is also selected, ensure it keeps the selected style (primary color) */
+        .calendar-day-button.day-today.day-selected-single {
+            background-color: var(--primary-color);
+            color: var(--primary-foreground-color);
+        }
+
+        .calendar-day-button.day-outside {
+            color: var(--muted-foreground-color); /* Muted color for days outside current month */
+            opacity: 0.6; /* Slightly transparent */
+            cursor: default; /* Not interactive */
+            background-color: transparent; /* Ensure no background on hover */
+        }
+
+        .calendar-day-button.day-disabled {
+            color: var(--muted-foreground-color); /* Muted color for disabled days */
+            opacity: 0.4; /* More transparent */
+            cursor: not-allowed; /* Indicate not clickable */
+            background-color: transparent; /* Ensure no background on hover */
+        }
+
+        /* --- Focus State for Accessibility --- */
+        /* Apply a clear focus ring for keyboard navigation */
+        .calendar-day-button:focus-visible,
+        .calendar-nav-button:focus-visible {
+            outline: none; /* Remove default outline */
+            box-shadow: 0 0 0 3px var(--ring-color); /* Custom focus ring matching primary color */
+            position: relative; /* Ensure shadow is visible */
+            z-index: 10; /* Bring to front on focus */
+        }
+
+        /* --- Selected Date Display --- */
+        .selected-date-display {
+            padding: 1rem; /* Padding around the text */
+            background-color: var(--background-color); /* White background */
+            border: 1px solid var(--border-color); /* Light border */
+            border-radius: var(--border-radius-sm); /* Rounded corners */
+            text-align: center; /* Center the text */
+            font-size: 1rem; /* Standard font size */
+            color: var(--foreground-color); /* Default text color */
+            box-shadow: var(--shadow-light); /* Subtle shadow */
+            margin-top: 1rem; /* Space above this section */
+        }
+
+        .selected-date-display strong {
+            color: var(--primary-color); /* Highlight the date with primary color */
+            font-weight: 600; /* Semi-bold */
+        }
+    </style>
+</head>
+<body>
+    <!-- Main container for the calendar -->
+    <div id="calendar" class="calendar-container">
+        <!-- Calendar Header: Contains navigation buttons and month/year display -->
+        <div class="calendar-header">
+            <!-- Button to navigate to the previous month -->
+            <button id="prevMonth" class="calendar-nav-button" aria-label="Previous Month">
+                <!-- SVG icon for left arrow (ChevronLeftIcon) -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <!-- Display area for the current month and year -->
+            <div id="monthYear" class="calendar-caption-label" aria-live="polite"></div>
+            <!-- Button to navigate to the next month -->
+            <button id="nextMonth" class="calendar-nav-button" aria-label="Next Month">
+                <!-- SVG icon for right arrow (ChevronRightIcon) -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+        </div>
+
+        <!-- Weekdays Header: Displays the names of the days of the week -->
+        <div class="calendar-weekdays">
+            <span class="calendar-weekday">Sun</span>
+            <span class="calendar-weekday">Mon</span>
+            <span class="calendar-weekday">Tue</span>
+            <span class="calendar-weekday">Wed</span>
+            <span class="calendar-weekday">Thu</span>
+            <span class="calendar-weekday">Fri</span>
+            <span class="calendar-weekday">Sat</span>
+        </div>
+
+        <!-- Calendar Days Grid: This is where the individual day buttons will be populated by JavaScript -->
+        <div id="calendarDays" class="calendar-days-grid" role="grid" aria-labelledby="monthYear">
+            <!-- Day buttons will be inserted here -->
+        </div>
+
+        <!-- Display area for the currently selected date -->
+        <div class="selected-date-display">
+            Selected Date: <strong id="displaySelectedDate">None</strong>
+        </div>
+    </div>
+
+    <!-- --- JavaScript Logic for the Calendar --- -->
+    <script>
+        // Ensure the DOM is fully loaded before running the script
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- DOM Element References ---
+            // Get references to the HTML elements we'll be interacting with
+            const monthYearDisplay = document.getElementById('monthYear'); // Element to show current month and year
+            const prevMonthButton = document.getElementById('prevMonth'); // Button to go to previous month
+            const nextMonthButton = document.getElementById('nextMonth'); // Button to go to next month
+            const calendarDaysGrid = document.getElementById('calendarDays'); // Container for day buttons
+            const displaySelectedDate = document.getElementById('displaySelectedDate'); // Element to display selected date
+
+            // --- Calendar State Variables ---
+            // `currentViewDate`: Represents the month and year currently displayed in the calendar.
+            // It's a Date object, but only its month and year components are primarily used for rendering.
+            let currentViewDate = new Date();
+            // `selectedDate`: Stores the Date object of the day that the user has clicked and selected.
+            // It's `null` initially, meaning no date is selected.
+            let selectedDate = null;
+
+            /**
+             * `renderCalendar()`
+             * This function is responsible for drawing (or re-drawing) the entire calendar grid.
+             * It calculates which days belong to the current month, which are "outside" days
+             * from adjacent months, and applies appropriate styling.
+             */
+            function renderCalendar() {
+                calendarDaysGrid.innerHTML = ''; // Clear any existing day buttons from the grid
+
+                // Extract the year and month from `currentViewDate`
+                const year = currentViewDate.getFullYear();
+                const month = currentViewDate.getMonth(); // getMonth() returns 0 for January, 11 for December
+
+                // Update the calendar header to show the correct month and year.
+                // `toLocaleString` is used for user-friendly month names (e.g., "July 2025").
+                monthYearDisplay.textContent = currentViewDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+
+                // Calculate the first day of the current month (e.g., July 1, 2025)
+                const firstDayOfMonth = new Date(year, month, 1);
+                // Calculate the total number of days in the current month.
+                // Setting day to 0 of the *next* month gets the last day of the *current* month.
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+                // Determine the day of the week for the first day of the month (0 = Sunday, 6 = Saturday).
+                // This value tells us how many empty cells (or "outside" days) we need to add
+                // at the beginning of the grid to align the first day correctly under its weekday.
+                const firstDayOfWeek = firstDayOfMonth.getDay();
+
+                // Calculate the number of days from the *previous* month that need to be displayed
+                // to fill the leading empty cells in the first week.
+                const daysFromPrevMonth = firstDayOfWeek;
+
+                // Get the last day number of the *previous* month.
+                const prevMonthLastDay = new Date(year, month, 0).getDate();
+
+                // --- 1. Render Leading Days from Previous Month ---
+                // These days are displayed to visually complete the first week of the calendar.
+                for (let i = 0; i < daysFromPrevMonth; i++) {
+                    // Calculate the specific day number from the previous month.
+                    const dayNum = prevMonthLastDay - (daysFromPrevMonth - 1) + i;
+                    // Create a Date object for this "outside" day.
+                    const dayDate = new Date(year, month - 1, dayNum);
+                    // Create a day button and add the 'day-outside' class for styling.
+                    const dayButton = createDayButton(dayNum, dayDate, ['day-outside']);
+                    calendarDaysGrid.appendChild(dayButton); // Add the button to the grid
+                }
+
+                // --- 2. Render Current Month's Days ---
+                // Loop through each day of the current month.
+                for (let i = 1; i <= daysInMonth; i++) {
+                    // Create a Date object for the current day being processed.
+                    const dayDate = new Date(year, month, i);
+                    let classList = []; // Initialize an array to hold CSS classes for this day button.
+
+                    // Check if the current `dayDate` is today's actual date.
+                    const today = new Date();
+                    if (dayDate.toDateString() === today.toDateString()) {
+                        classList.push('day-today'); // Add 'day-today' class if it's today.
+                    }
+
+                    // Check if the current `dayDate` matches the `selectedDate`.
+                    if (selectedDate && dayDate.toDateString() === selectedDate.toDateString()) {
+                        classList.push('day-selected-single'); // Add 'day-selected-single' class if it's the selected date.
+                    }
+
+                    // Create the day button with the day number, its Date object, and calculated classes.
+                    const dayButton = createDayButton(i, dayDate, classList);
+                    calendarDaysGrid.appendChild(dayButton); // Add the button to the grid.
+                }
+
+                // --- 3. Render Trailing Days from Next Month ---
+                // Calendar grids typically show 6 weeks (42 cells) to maintain a consistent layout.
+                // Calculate how many more cells are needed after the current month's days.
+                const totalCellsRendered = daysFromPrevMonth + daysInMonth;
+                const daysToFill = 42 - totalCellsRendered; // Number of days from next month to display.
+
+                for (let i = 1; i <= daysToFill; i++) {
+                    // Create a Date object for this "outside" day from the next month.
+                    const dayDate = new Date(year, month + 1, i);
+                    // Create a day button and add the 'day-outside' class for styling.
+                    const dayButton = createDayButton(i, dayDate, ['day-outside']);
+                    calendarDaysGrid.appendChild(dayButton); // Add the button to the grid.
+                }
+            }
+
+            /**
+             * `createDayButton()`
+             * Helper function to create an HTML button element for a single calendar day.
+             * It sets up the text, classes, data attributes, and event listener for selection.
+             * @param {number} dayNumber - The numerical day of the month (e.g., 1, 15).
+             * @param {Date} dayDate - The full Date object corresponding to this day.
+             * @param {string[]} classNames - An array of CSS class names to apply to the button.
+             * @returns {HTMLButtonElement} The constructed button element.
+             */
+            function createDayButton(dayNumber, dayDate, classNames = []) {
+                const button = document.createElement('button'); // Create a new button element
+                button.classList.add('calendar-day-button', ...classNames); // Add base class and any additional classes
+                button.textContent = dayNumber; // Set the day number as the button's text
+
+                // Add ARIA attributes for improved accessibility (screen readers)
+                button.setAttribute('role', 'gridcell'); // Role indicates it's a cell in a grid
+                button.setAttribute('aria-label', dayDate.toDateString()); // Provides a descriptive label for screen readers
+
+                // Store the full date as an ISO string in a `data-full-date` attribute.
+                // This makes it easy to retrieve the exact date when the button is clicked.
+                button.dataset.fullDate = dayDate.toISOString();
+
+                // Add a click event listener to handle day selection
+                button.addEventListener('click', (event) => {
+                    // Prevent selection if the clicked day is an "outside" day or explicitly disabled.
+                    if (event.target.classList.contains('day-outside') || event.target.classList.contains('day-disabled')) {
+                        return; // Exit the function if not a selectable day
+                    }
+
+                    // Find any previously selected day button
+                    const previouslySelected = document.querySelector('.calendar-day-button.day-selected-single');
+                    if (previouslySelected) {
+                        // If a previous selection exists, remove its 'selected' class and ARIA attribute
+                        previouslySelected.classList.remove('day-selected-single');
+                        previouslySelected.setAttribute('aria-selected', 'false');
+                    }
+
+                    // Add 'day-selected-single' class to the newly clicked day
+                    event.target.classList.add('day-selected-single');
+                    event.target.setAttribute('aria-selected', 'true'); // Update ARIA attribute
+
+                    // Update the `selectedDate` state variable with the Date object of the clicked day
+                    // We parse the ISO string back to a Date object for consistency
+                    selectedDate = new Date(event.target.dataset.fullDate);
+
+                    // Display the selected date in the dedicated UI element
+                    displaySelectedDate.textContent = selectedDate.toLocaleDateString('en-US', {
+                        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                    });
+
+                    // Log the selected date to the console for debugging/information
+                    console.log('Selected date:', selectedDate.toLocaleDateString());
+                    // In a more complex application, you might also trigger a custom event here
+                    // or update an associated input field.
+                });
+
+                return button; // Return the created button element
+            }
+
+            // --- Event Listeners for Navigation Buttons ---
+
+            // Event listener for the "Previous Month" button
+            prevMonthButton.addEventListener('click', () => {
+                // Decrement the month of the `currentViewDate` by 1.
+                currentViewDate.setMonth(currentViewDate.getMonth() - 1);
+                renderCalendar(); // Re-render the calendar to display the new month
+            });
+
+            // Event listener for the "Next Month" button
+            nextMonthButton.addEventListener('click', () => {
+                // Increment the month of the `currentViewDate` by 1.
+                currentViewDate.setMonth(currentViewDate.getMonth() + 1);
+                renderCalendar(); // Re-render the calendar to display the new month
+            });
+
+            // --- Initial Calendar Render ---
+            // Call `renderCalendar()` once when the page first loads to display the initial month.
+            renderCalendar();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Comments Demonstration</title>
+    <style>
+        /* Global styles for readability and basic aesthetics */
+        body {
+            font-family: "Inter", sans-serif;
+            background-color: #f9fafb;
+            padding: 24px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #374151;
+            margin-top: 32px;
+            margin-bottom: 16px;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            font-size: 20px;
+            font-weight: 500;
+            color: #4b5563;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+
+        p {
+            margin-bottom: 16px;
+        }
+
+        pre {
+            background-color: #f0f4f8; /* Light blue-gray for code blocks */
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 16px;
+            overflow-x: auto; /* Allows horizontal scrolling for long lines */
+            font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+            background-color: #e2e8f0; /* Slightly darker for inline code */
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .warning {
+            background-color: #fefcbf; /* Light yellow for warnings */
+            border-left: 4px solid #facc15; /* Yellow border */
+            padding: 12px 16px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            color: #854d0c; /* Dark yellow text */
+        }
+
+        .note {
+            background-color: #e0f2fe; /* Light blue for notes */
+            border-left: 4px solid #38bdf8; /* Blue border */
+            padding: 12px 16px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            color: #0c4a6e; /* Dark blue text */
+        }
+
+        /* --- CSS for demonstration --- */
+
+        /* Example 1: Basic single-line comment */
+        .single-line-comment {
+            color: #e63946; /* This is a CSS comment for the color property */
+            font-weight: bold;
+        }
+
+        /* Example 2: Multi-line comment */
+        .multi-line-comment {
+            /* This is a CSS comment, and it
+               can be several lines long without
+               any problem whatsoever.
+            */
+            background-color: #a8dadc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        /* Example 3: Incorrect nested comment (will break) */
+        /* This is a comment, in which we find
+           another comment, which is WRONG
+           /* Another comment */
+           and back to the first comment, which is not a comment.
+           This entire block will be commented out up to the first closing */
+        .nested-comment-issue {
+            /* This rule will not be applied due to the broken comment above */
+            color: red; /* This line is also commented out by the broken block */
+        }
+
+        /* Example 4: Correct same-line comments */
+        .correct-same-line {
+            color: #457b9d; /* This CSS comment is on the same line */
+            background-color: #f1faee; /* as the declaration, and each line */
+            padding: 8px; /* needs its own comment markers. */
+            border: 1px solid #1d3557; /* This ensures all styles are applied. */
+        }
+
+        /* Example 5: Incorrect same-line comments (will break) */
+        .incorrect-same-line {
+            color: #a7c957; /* This CSS comment is several lines
+            background-color: #f2e8cf; /* long, but since it is not wrapped
+            padding: 8px; /* in comment markers, the last three
+            border: 1px solid #283618; /* styles are part of the comment. */
+        }
+        /* Only the 'color' property above will be applied. The rest are commented out. */
+
+        /* Example 6: Comments inside declarations (valid but less common) */
+        .comment-inside-declaration {
+            font-size: /* This comment is inside the value */ 20px;
+            line-height: 1.5;
+            text-decoration: underline /* This comment is after the value */;
+            border: 2px solid /* Comment before value */ #e76f51;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>CSS Comments</h1>
+
+        <p>
+            CSS allows for comments, which are essential for documenting your stylesheets,
+            explaining complex rules, or temporarily disabling parts of your code.
+            CSS comments are very similar to C/C++ comments, surrounded by <code>/*</code> and <code>*/</code>.
+        </p>
+
+        <h2>Basic Comment Syntax</h2>
+
+        <h3>Single-Line Comments</h3>
+        <p>
+            Comments can be placed on a single line. Everything between <code>/*</code> and <code>*/</code> is ignored by the browser.
+        </p>
+        <pre><code>/* This is a CSS comment */
+.single-line-comment {
+    color: #e63946; /* This is a CSS comment for the color property */
+    font-weight: bold;
+}</code></pre>
+        <div class="single-line-comment">This text is styled by a rule with a single-line comment.</div>
+
+        <h3>Multi-Line Comments</h3>
+        <p>
+            Comments can span multiple lines. The comment starts with <code>/*</code> and ends with <code>*/</code>,
+            regardless of how many lines are in between.
+        </p>
+        <pre><code>/* This is a CSS comment, and it
+   can be several lines long without
+   any problem whatsoever.
+*/
+.multi-line-comment {
+    background-color: #a8dadc;
+    padding: 10px;
+    border-radius: 5px;
+}</code></pre>
+        <div class="multi-line-comment">This box is styled by a rule with a multi-line comment.</div>
+
+        <h2>Important Restrictions: No Nested Comments</h2>
+        <p>
+            It’s crucial to remember that CSS comments <strong>cannot be nested</strong>. A comment block ends at the
+            first <code>*/</code> it encounters. If you try to nest comments, it will break your stylesheet.
+        </p>
+
+        <h3>Incorrect Example: Nested Comments</h3>
+        <p>
+            This example demonstrates what happens when you try to nest comments. The "outside" comment
+            will terminate prematurely at the closing of the "inside" comment, causing the rest of the
+            intended comment block to be treated as active CSS rules (or syntax errors).
+        </p>
+        <pre><code>/* This is a comment, in which we find
+   another comment, which is WRONG
+   /* Another comment */ &lt;-- This closes the outer comment prematurely!
+   and back to the first comment, which is not a comment.*/
+.nested-comment-issue {
+    color: red; /* This line is also commented out by the broken block */
+}</code></pre>
+        <div class="warning">
+            <strong>WARNING:</strong> The CSS rule for <code>.nested-comment-issue</code> is intended to be commented out
+            in the example code block above, but due to the incorrect nested comment syntax, only the portion
+            up to the first <code>*/</code> is actually commented. This means the <code>.nested-comment-issue</code>
+            rule will likely not be applied as intended, or may cause parsing errors.
+            (This specific example class is not applied to any element on this page to avoid visual confusion).
+        </div>
+
+        <p>
+            One common way to accidentally create "nested" comments is to temporarily comment out a large block of
+            a stylesheet that already contains a comment. Since CSS doesn’t permit nested comments, the "outside"
+            comment will end where the "inside" comment ends.
+        </p>
+
+        <h2>Comments on the Same Line as Styles</h2>
+        <p>
+            Unlike some other languages (e.g., JavaScript's <code>//</code> or Python's <code>#</code>), CSS does not
+            have a "rest of the line" comment pattern. The only comment pattern is <code>/* */</code>.
+            Therefore, if you wish to place comments on the same line as markup, you need to be careful about how you
+            place them, ensuring each line or segment of comment is properly wrapped.
+        </p>
+
+        <h3>Correct Way to Comment on Multiple Lines Alongside Styles</h3>
+        <p>
+            Each line of the comment must be explicitly wrapped in <code>/*</code> and <code>*/</code>.
+        </p>
+        <pre><code>.correct-same-line {
+    color: #457b9d; /* This CSS comment is on the same line */
+    background-color: #f1faee; /* as the declaration, and each line */
+    padding: 8px; /* needs its own comment markers. */
+    border: 1px solid #1d3557; /* This ensures all styles are applied. */
+}</code></pre>
+        <div class="correct-same-line">This box is styled correctly, with comments alongside each property.</div>
+
+        <h3>Incorrect Way to Comment on Multiple Lines Alongside Styles</h3>
+        <p>
+            If each line isn't marked off, most of the stylesheet will become part of the comment and thus will not work.
+        </p>
+        <pre><code>.incorrect-same-line {
+    color: #a7c957; /* This CSS comment is several lines
+    background-color: #f2e8cf; /* long, but since it is not wrapped
+    padding: 8px; /* in comment markers, the last three
+    border: 1px solid #283618; /* styles are part of the comment. */
+}</code></pre>
+        <p>
+            In the example above, only the <code>color</code> property will be applied to <code>.incorrect-same-line</code>.
+            The rest of the rules (<code>background-color</code>, <code>padding</code>, <code>border</code>), being part of the
+            unclosed comment, are ignored by the browser’s rendering engine.
+        </p>
+        <div class="incorrect-same-line">
+            This box should have a light yellow background, padding, and a dark border,
+            but only its text color is applied due to the broken comment in the CSS.
+        </div>
+
+        <div class="note">
+            <strong>NOTE:</strong> CSS comments are treated by the CSS parser as if they do not exist at all,
+            and so do not count as whitespace for parsing purposes. This means you can even put them
+            into the middle of rules—even right inside declarations!
+        </div>
+        <p>
+            For example, this is valid CSS, though not commonly used for readability:
+        </p>
+        <pre><code>.comment-inside-declaration {
+    font-size: /* This comment is inside the value */ 20px;
+    line-height: 1.5;
+    text-decoration: underline /* This comment is after the value */;
+    border: 2px solid /* Comment before value */ #e76f51;
+}</code></pre>
+        <div class="comment-inside-declaration">
+            This text demonstrates comments placed inside CSS declarations.
+        </div>
+    </div>
+
+</body>
+</html>
