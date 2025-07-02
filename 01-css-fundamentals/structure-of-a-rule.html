@@ -12,23 +12,12 @@
         <title>The structure of a rule</title>
         <style type="text/css">
             body {
-                /* The padding-block CSS shorthand property defines the logical block start and end padding of an element, which maps to physical padding properties depending on the element's writing mode, directionality, and text orientation. */
                 padding-block: 3em;
-                /* The padding-inline CSS shorthand property defines the logical inline start and end padding of an element, which maps to physical padding properties depending on the element's writing mode, directionality, and text orientation. */
                 padding-inline: 2em;
             }
             div {
-                /* The display CSS property sets whether an element is treated as a block or inline box and the layout used for its children, such as flow layout, grid or flex. */
-                /* The CSS grid layout module excels at dividing a page into major regions or defining the relationship in terms of size, position, and layering between parts of a control built from HTML primitives. */
-                /* Like tables, grid layout enables an author to align elements into columns and rows. However, many more layouts are either possible or easier with CSS grid than they were with tables. For example, a grid container's child elements could position themselves so they actually overlap and layer, similar to CSS positioned elements. */
                 display: grid;
-                /* The grid-template-columns CSS property defines the line names and track sizing functions of the grid columns. */
-                /* A grid column is a vertical track in a CSS grid layout, and is the space between two vertical grid lines. It is defined by the grid-template-columns property or in the shorthand grid or grid-template properties. */
                 grid-template-columns: 8ch 14ch 22.5ch;
-                /* The grid-template-rows CSS property defines the line names and track sizing functions of the grid rows. */
-                /* A grid row is a horizontal track in a CSS grid layout, that is the space between two horizontal grid lines. It is defined by the grid-template-rows property or in the shorthand grid or grid-template properties. */
-                /* In addition, rows may be created in the implicit grid when items are placed outside of rows created in the explicit grid. These rows will be auto sized by default, or can have a size specified with the grid-auto-rows property. */
-                /* When working with alignment in CSS grid layout, the axis along which rows run is known as the inline, or row, axis. */
                 grid-template-rows: repeat(2, min-content);
             }
         </style>
