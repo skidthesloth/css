@@ -3,86 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>grid-template-rows Variations</title>
+    <title>grid-template-rows Variations (Vanilla CSS)</title>
     <style>
+        /* Global styles for readability and basic aesthetics */
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
+            font-family: "Inter", sans-serif;
+            background-color: #f9fafb;
+            padding: 24px;
         }
         .grid-container {
             display: grid;
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 30px;
-            gap: 5px; /* For better visualization of grid cells */
+            border: 1px solid #d1d5db;
+            padding: 16px;
+            margin-bottom: 32px;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            background-color: #ffffff;
+            gap: 8px; /* Gap between grid items */
+            min-height: 100px; /* Ensure containers have some height for visualization */
+            width: 100%; /* Ensure fluid width */
+            max-width: 800px; /* Max width for readability */
+            margin-left: auto;
+            margin-right: auto;
         }
         .grid-item {
-            background-color: #f0f0f0;
-            border: 1px dashed #999;
-            padding: 10px;
+            background-color: #dbeafe;
+            border: 1px solid #93c5fd;
+            color: #1e40af;
+            padding: 12px;
             text-align: center;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px; /* Minimum height for items */
+        }
+        h1 {
+            font-size: 30px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #374151;
+            margin-top: 32px;
+            margin-bottom: 16px;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 8px;
+        }
+        h3 {
+            font-size: 20px;
+            font-weight: 500;
+            color: #4b5563;
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+        p {
+            color: #4b5563;
+            margin-bottom: 16px;
+        }
+        em {
+            font-size: 14px;
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        /* Specific styles for subgrid/masonry items to differentiate */
+        .grid-item.purple {
+            background-color: #ede9fe;
+            border-color: #a78bfa;
+            color: #6d28d9;
+        }
+        .grid-item.purple-light {
+            background-color: #ddd6fe;
+        }
+        .grid-item.green {
+            background-color: #d1fae5;
+            border-color: #6ee7b7;
+            color: #065f46;
+        }
+        .grid-item.green-light {
+            background-color: #a7f3d0;
         }
     </style>
 </head>
 <body>
 
-    <h1>`grid-template-rows` Variations</h1>
+    <h1>`grid-template-rows` Property Variations (Vanilla CSS)</h1>
+    <p style="text-align: center; font-size: 18px; margin-bottom: 32px;">Explore the different ways to define row sizes and behaviors in CSS Grid Layout.</p>
 
+    <!-- 1. Keyword Value: none -->
     <h2>1. `grid-template-rows: none;`</h2>
-    <p>No explicit grid rows are defined. Rows are implicitly generated, and their size is determined by `grid-auto-rows` (which defaults to `auto` if not set).</p>
+    <p>
+        This is the default value. It means there's no explicit grid definition for rows.
+        Rows will be implicitly generated as needed, and their size will be determined by the
+        `grid-auto-rows` property. Here, `grid-auto-rows` is set to `50px` for demonstration.
+    </p>
     <div class="grid-container" style="grid-template-rows: none; grid-auto-rows: 50px;">
-        <div class="grid-item">Item 1</div>
-        <div class="grid-item">Item 2</div>
-        <div class="grid-item">Item 3</div>
-        <div class="grid-item">Item 4</div>
+        <div class="grid-item">Item 1 (Implicit Row)</div>
+        <div class="grid-item">Item 2 (Implicit Row)</div>
+        <div class="grid-item">Item 3 (Implicit Row)</div>
+        <div class="grid-item">Item 4 (Implicit Row)</div>
     </div>
 
+    <!-- 2. <track-list> Values: Fixed Size -->
     <h2>2. `grid-template-rows: 100px 1fr;` (Fixed and Flexible)</h2>
-    <p>Defines two rows: the first is 100px tall, and the second takes up the remaining available space (1 fraction).</p>
+    <p>
+        Defines two explicit rows: the first is `100px` tall, and the second (`1fr`)
+        takes up all the remaining available space in the grid container.
+    </p>
     <div class="grid-container" style="grid-template-rows: 100px 1fr; height: 200px;">
         <div class="grid-item">Row 1 (100px)</div>
-        <div class="grid-item">Row 2 (1fr)</div>
+        <div class="grid-item">Row 2 (1fr - Fills Remaining Space)</div>
     </div>
 
-    <h2>3. `grid-template-rows: 50px 100px 75px;` (Multiple Fixed Sizes)</h2>
-    <p>Defines three rows with specific pixel heights.</p>
+    <h3>`grid-template-rows: 50px 100px 75px;` (Multiple Fixed Sizes)</h3>
+    <p>
+        Defines three explicit rows with specific, fixed pixel heights.
+    </p>
     <div class="grid-container" style="grid-template-rows: 50px 100px 75px;">
         <div class="grid-item">Row 1 (50px)</div>
         <div class="grid-item">Row 2 (100px)</div>
         <div class="grid-item">Row 3 (75px)</div>
     </div>
 
-    <h2>4. `grid-template-rows: [header-start] 50px [header-end] [content-start] 1fr [content-end];`</h2>
-    <p>Defines rows with explicit line names. This allows for easier placement of grid items using these names.</p>
+    <!-- 3. <track-list> Values: With Line Names -->
+    <h2>3. `grid-template-rows: [header-start] 50px [header-end] [content-start] 1fr [content-end];`</h2>
+    <p>
+        Defines rows with explicit line names. These names can be used with `grid-row-start`
+        and `grid-row-end` (or shorthand `grid-row`) on grid items for precise placement,
+        making the layout more readable and maintainable.
+    </p>
     <div class="grid-container" style="grid-template-rows: [header-start] 50px [header-end] [content-start] 1fr [content-end]; height: 200px;">
-        <div class="grid-item" style="grid-row: header-start / header-end;">Header Area</div>
-        <div class="grid-item" style="grid-row: content-start / content-end;">Main Content Area</div>
+        <!-- Item explicitly placed using line names -->
+        <div class="grid-item" style="grid-row: header-start / header-end;">Header Area (50px)</div>
+        <div class="grid-item" style="grid-row: content-start / content-end;">Main Content Area (1fr)</div>
     </div>
 
-    <h2>5. `grid-template-rows: 1fr 2fr 1fr;`</h2>
-    <p>Defines three flexible rows. The second row will be twice as tall as the first and third rows, sharing available space proportionally.</p>
+    <!-- 4. <track-list> Values: Flexible Size (fr unit) -->
+    <h2>4. `grid-template-rows: 1fr 2fr 1fr;`</h2>
+    <p>
+        Defines three flexible rows. The `fr` (fraction) unit distributes available space
+        proportionally. Here, the second row will be twice as tall as the first and third rows,
+        as it has a flex factor of `2`.
+    </p>
     <div class="grid-container" style="grid-template-rows: 1fr 2fr 1fr; height: 300px;">
         <div class="grid-item">Row 1 (1fr)</div>
-        <div class="grid-item">Row 2 (2fr)</div>
+        <div class="grid-item">Row 2 (2fr - Double Size)</div>
         <div class="grid-item">Row 3 (1fr)</div>
     </div>
 
-    <h2>6. `grid-template-rows: minmax(50px, 100px);`</h2>
-    <p>Defines a single row that will be at least 50px tall and at most 100px tall. If content requires more than 100px, it will overflow, but the track itself won't exceed 100px.</p>
+    <!-- 5. <track-list> Values: minmax() Function -->
+    <h2>5. `grid-template-rows: minmax(50px, 100px);`</h2>
+    <p>
+        The `minmax()` function defines a size range for a track. This row will be at least
+        `50px` tall and at most `100px` tall. If content requires more than `100px`, it will
+        overflow, but the track itself won't exceed `100px`.
+    </p>
     <div class="grid-container" style="grid-template-rows: minmax(50px, 100px);">
         <div class="grid-item">Short Content</div>
-        <div class="grid-item" style="height: 120px;">Longer Content<br>This will be clipped or overflow if container is smaller than content needs.</div>
+        <div class="grid-item">
+            Longer Content. This item's content might try to make the row taller,
+            but the row's maximum size is capped at 100px by `minmax()`.
+        </div>
     </div>
 
-    <h2>7. `grid-template-rows: minmax(min-content, max-content);`</h2>
-    <p>Defines a row that will be sized between its minimum and maximum content contributions.</p>
+    <h3>`grid-template-rows: minmax(min-content, max-content);`</h3>
+    <p>
+        This row will be sized between its "minimum content contribution" (the smallest it
+        can be without content overflowing) and its "maximum content contribution" (the size
+        it needs to be to fit all content on a single line, if possible).
+    </p>
     <div class="grid-container" style="grid-template-rows: minmax(min-content, max-content);">
         <div class="grid-item">Min Content</div>
-        <div class="grid-item">Max Content Example with more text.</div>
+        <div class="grid-item">Max Content Example with more text that will expand the row to fit.</div>
     </div>
 
-    <h2>8. `grid-template-rows: max-content min-content;`</h2>
-    <p>The first row takes the largest maximal content contribution of its items. The second row takes the largest minimal content contribution of its items.</p>
+    <!-- 6. <track-list> Values: Content-Based Keywords -->
+    <h2>6. `grid-template-rows: max-content min-content;`</h2>
+    <p>
+        The first row will size itself to the largest maximal content contribution of the items
+        placed within it. The second row will size itself to the largest minimal content
+        contribution of its items.
+    </p>
     <div class="grid-container" style="grid-template-rows: max-content min-content;">
         <div class="grid-item">Item 1 with some text that will determine max-content size for the first row.</div>
         <div class="grid-item">Item 2 with short text.</div>
@@ -90,31 +196,51 @@
         <div class="grid-item">Item 4 with just a few words for min-content.</div>
     </div>
 
-    <h2>9. `grid-template-rows: auto;`</h2>
-    <p>The row will take up any remaining space and behaves similarly to `minmax(min-content, max-content)`. It can also be stretched by `align-content`.</p>
+    <h3>`grid-template-rows: auto;`</h3>
+    <p>
+        The `auto` keyword behaves similarly to `minmax(min-content, max-content)` in most cases.
+        Crucially, `auto` sized tracks (and only `auto` tracks) can be stretched by
+        `align-content` and `justify-content` properties, allowing them to fill remaining space.
+    </p>
     <div class="grid-container" style="grid-template-rows: auto; height: 150px; align-content: stretch;">
-        <div class="grid-item">Item 1</div>
-        <div class="grid-item">Item 2</div>
+        <div class="grid-item">Item 1 (Auto-sized, stretched)</div>
+        <div class="grid-item">Item 2 (Auto-sized, stretched)</div>
     </div>
 
-    <h2>10. `grid-template-rows: fit-content(150px);`</h2>
-    <p>The row size is calculated as `min(max-content, max(auto, 150px))`. It means the row will be at most 150px tall, but will at least accommodate its auto content.</p>
+    <!-- 7. <track-list> Values: fit-content() Function -->
+    <h2>7. `grid-template-rows: fit-content(150px);`</h2>
+    <p>
+        The `fit-content()` function calculates the row size as `min(max-content, max(auto, argument))`.
+        This means the row will be at most `150px` tall, but it will at least accommodate its
+        `auto` content. If the content is very short, it will shrink, but it won't exceed 150px.
+    </p>
     <div class="grid-container" style="grid-template-rows: fit-content(150px);">
         <div class="grid-item">Short Content</div>
-        <div class="grid-item">This content is longer and might exceed 150px, but the track itself won't grow beyond 150px due to `fit-content`.</div>
+        <div class="grid-item">
+            This content is longer and might try to expand beyond 150px,
+            but the track itself won't grow beyond 150px due to `fit-content()`.
+        </div>
     </div>
 
-    <h2>11. `grid-template-rows: repeat(3, 100px);`</h2>
-    <p>Creates three rows, each 100px tall.</p>
+    <!-- 8. <track-list> Values: repeat() Function -->
+    <h2>8. `grid-template-rows: repeat(3, 100px);`</h2>
+    <p>
+        The `repeat()` function is a shorthand to define a large number of repeating tracks.
+        Here, it creates three explicit rows, each `100px` tall.
+    </p>
     <div class="grid-container" style="grid-template-rows: repeat(3, 100px);">
         <div class="grid-item">Row 1</div>
         <div class="grid-item">Row 2</div>
         <div class="grid-item">Row 3</div>
-        <div class="grid-item">Extra Item (will go into implicit fourth row)</div>
+        <div class="grid-item">Extra Item (This will be placed in an implicitly generated row below the defined 3)</div>
     </div>
 
-    <h2>12. `grid-template-rows: repeat(auto-fill, minmax(80px, 1fr));`</h2>
-    <p>Automatically fills the available space with as many rows as can fit, each between 80px and 1fr. `auto-fill` will create empty tracks if items don't fill them.</p>
+    <h3>`grid-template-rows: repeat(auto-fill, minmax(80px, 1fr));`</h3>
+    <p>
+        `auto-fill` automatically creates as many tracks as can fit into the grid container,
+        based on the provided track sizing (here, `minmax(80px, 1fr)`). If there are not enough
+        items to fill all generated tracks, empty tracks will still be created, taking up space.
+    </p>
     <div class="grid-container" style="grid-template-rows: repeat(auto-fill, minmax(80px, 1fr)); height: 300px;">
         <div class="grid-item">Item 1</div>
         <div class="grid-item">Item 2</div>
@@ -123,29 +249,48 @@
         <div class="grid-item">Item 5</div>
     </div>
 
-    <h2>13. `grid-template-rows: repeat(auto-fit, 100px);`</h2>
-    <p>Similar to `auto-fill`, but `auto-fit` will collapse empty tracks once items are placed, effectively fitting the items. Best seen with varying numbers of items.</p>
+    <h3>`grid-template-rows: repeat(auto-fit, 100px);`</h3>
+    <p>
+        Similar to `auto-fill`, but `auto-fit` will collapse (effectively remove) any empty
+        tracks once items are placed. This makes it useful for fitting items dynamically,
+        as the tracks will only exist if there's content for them.
+    </p>
     <div class="grid-container" style="grid-template-rows: repeat(auto-fit, 100px); height: 300px;">
         <div class="grid-item">Item 1</div>
         <div class="grid-item">Item 2</div>
         <div class="grid-item">Item 3</div>
-        </div>
+        <!-- Try removing items above to see auto-fit collapse empty rows -->
+    </div>
 
-    <h2>14. `grid-template-rows: subgrid;`</h2>
-    <p>The grid will adopt the spanned portion of its parent grid's row definition. This example shows a nested grid becoming a subgrid.</p>
+    <!-- 9. <track-list> Values: subgrid Keyword -->
+    <h2>9. `grid-template-rows: subgrid;`</h2>
+    <p>
+        The `subgrid` keyword indicates that a nested grid will adopt the spanned portion
+        of its parent grid's row definition. Instead of defining its own rows, it uses
+        the lines defined by its parent. This example shows a nested grid using `subgrid`.
+    </p>
     <div class="grid-container" style="grid-template-rows: 50px 1fr 50px;">
         <div class="grid-item">Parent Row 1</div>
-        <div class="grid-item" style="grid-row: 2; display: grid; grid-template-rows: subgrid; grid-column: 1 / -1;">
-            <div class="grid-item">Subgrid Item A (inherits parent's row definition)</div>
-            <div class="grid-item">Subgrid Item B</div>
+        <!-- This item is a grid container itself and uses subgrid for its rows -->
+        <div class="grid-item purple" style="grid-row: 2; display: grid; grid-template-rows: subgrid; grid-column: 1 / -1;">
+            <div class="grid-item purple-light">Subgrid Item A (inherits parent's row 2)</div>
+            <div class="grid-item purple-light">Subgrid Item B (inherits parent's row 2)</div>
         </div>
         <div class="grid-item">Parent Row 3</div>
     </div>
-    <p style="font-size: 0.8em;"><em>Note: `subgrid` requires the parent grid to define the tracks that the subgrid will span. Visualizing this fully often requires more complex layout.</em></p>
+    <p class="text-sm text-gray-500 italic">
+        <em>Note: `subgrid` requires the parent grid to define the tracks that the subgrid will span.
+        Visualizing this fully often requires more complex layout and specific browser support.</em>
+    </p>
 
-    <h2>15. `grid-template-rows: masonry;`</h2>
-    <p>Indicates that the row axis should be laid out according to the masonry algorithm. (Browser support is experimental/limited for this feature.)</p>
-    <div class="grid-container" style="grid-template-rows: masonry; grid-auto-columns: 100px; grid-auto-flow: dense;">
+    <!-- 10. <track-list> Values: masonry Keyword -->
+    <h2>10. `grid-template-rows: masonry;`</h2>
+    <p>
+        The `masonry` value indicates that this axis should be laid out according to the
+        masonry algorithm, similar to Pinterest-style layouts. Items are placed in the
+        next available space in the shortest column.
+    </p>
+    <div class="grid-container" style="grid-template-rows: masonry; grid-auto-columns: 100px; grid-auto-flow: dense; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));">
         <div class="grid-item" style="height: 80px;">Item 1</div>
         <div class="grid-item" style="height: 120px;">Item 2</div>
         <div class="grid-item" style="height: 60px;">Item 3</div>
@@ -153,64 +298,102 @@
         <div class="grid-item" style="height: 90px;">Item 5</div>
         <div class="grid-item" style="height: 150px;">Item 6</div>
     </div>
-    <p style="font-size: 0.8em;"><em>Note: `masonry` is currently an experimental feature and may not work in all browsers without flags. This example may not visually demonstrate masonry layout without proper browser support and potentially more complex item sizing.</em></p>
+    <p class="text-sm text-gray-500 italic">
+        <em>Note: `masonry` is currently an experimental feature and may not work in all browsers
+        without enabling experimental flags. The visual effect may not be apparent without
+        proper browser support and potentially more items.</em>
+    </p>
 
-    <h2>16. `grid-template-rows: 50px repeat(auto-fill, 100px) 150px;`</h2>
-    <p>A 50px fixed row, followed by automatically filling 100px rows, and ending with a 150px fixed row.</p>
+    <!-- 11. <auto-track-list> Values -->
+    <h2>11. `grid-template-rows: 50px repeat(auto-fill, 100px) 150px;`</h2>
+    <p>
+        This combines explicit track definitions with the `repeat()` function using `auto-fill`.
+        It defines a `50px` fixed row at the start, then automatically fills the space with
+        `100px` rows, and finally ends with a `150px` fixed row.
+    </p>
     <div class="grid-container" style="grid-template-rows: 50px repeat(auto-fill, 100px) 150px; height: 400px;">
         <div class="grid-item">Header (50px)</div>
-        <div class="grid-item">Auto-Fill 1</div>
-        <div class="grid-item">Auto-Fill 2</div>
-        <div class="grid-item">Auto-Fill 3</div>
+        <div class="grid-item">Auto-Fill Row 1</div>
+        <div class="grid-item">Auto-Fill Row 2</div>
+        <div class="grid-item">Auto-Fill Row 3</div>
         <div class="grid-item">Footer (150px)</div>
     </div>
 
-    <h2>17. Global Values (`inherit`, `initial`, `revert`, `revert-layer`, `unset`)</h2>
-    <p>These values control how the property's value is computed based on inheritance, initial state, or the cascade.</p>
+    <!-- 12. Global Values -->
+    <h2>12. Global Values (`inherit`, `initial`, `revert`, `revert-layer`, `unset`)</h2>
+    <p>
+        These are standard CSS global keywords that control how the property's value is
+        computed based on inheritance, its initial state, or the CSS cascade.
+    </p>
 
     <h3>`grid-template-rows: inherit;`</h3>
-    <div class="grid-container" style="grid-template-rows: 100px 1fr;">
+    <p>
+        The element's `grid-template-rows` value will be the same as its parent's.
+        Since `grid-template-rows` is not an inherited property by default, this
+        will typically behave like `initial` unless explicitly set on the parent.
+    </p>
+    <div class="grid-container" style="grid-template-rows: 80px 1fr;">
         <div class="grid-item">Parent Grid Item</div>
-        <div class="grid-container" style="grid-template-rows: inherit; border: 1px solid blue; margin-top: 10px;">
-            <div class="grid-item">Child Item 1 (inherits parent's row definition)</div>
-            <div class="grid-item">Child Item 2</div>
+        <div class="grid-container green" style="grid-template-rows: inherit; margin-top: 10px;">
+            <div class="grid-item green-light">Child Item 1 (inherits parent's 80px 1fr)</div>
+            <div class="grid-item green-light">Child Item 2</div>
         </div>
     </div>
 
-    <h3>`grid-template-rows: initial;` (Resets to `none`)</h3>
-    <div class="grid-container" style="grid-template-rows: initial; grid-auto-rows: 50px;">
-        <div class="grid-item">Item 1</div>
+    <h3>`grid-template-rows: initial;`</h3>
+    <p>
+        Resets the `grid-template-rows` property to its default initial value, which is `none`.
+        This means rows will be implicitly generated, sized by `grid-auto-rows`.
+    </p>
+    <div class="grid-container" style="grid-template-rows: initial; grid-auto-rows: 60px;">
+        <div class="grid-item">Item 1 (Initial: none, then auto-rows)</div>
         <div class="grid-item">Item 2</div>
     </div>
 
     <h3>`grid-template-rows: revert;`</h3>
-    <p>Resets the property to its cascaded value (e.g., from a user-agent stylesheet or a prior rule).</p>
-    <div class="grid-container" style="grid-template-rows: revert; grid-auto-rows: 50px;">
-        <div class="grid-item">Item 1 (demonstrates revert - typically reverts to browser default if no prior rule applies)</div>
+    <p>
+        Resets the property to its cascaded value, which means it reverts to the value
+        established by the user agent's default stylesheet, a user stylesheet, or a
+        prior author stylesheet rule.
+    </p>
+    <div class="grid-container" style="grid-template-rows: revert; grid-auto-rows: 60px;">
+        <div class="grid-item">Item 1 (Reverts to browser default/previous rule)</div>
         <div class="grid-item">Item 2</div>
     </div>
-    <p style="font-size: 0.8em;"><em>Note: The visual effect of `revert` might be identical to `initial` or `none` in a simple demo without other conflicting styles.</em></p>
-
+    <p class="text-sm text-gray-500 italic">
+        <em>Note: The visual effect of `revert` might be identical to `initial` or `none`
+        in a simple demo without other conflicting styles or user agent styles.</em>
+    </p>
 
     <h3>`grid-template-rows: revert-layer;`</h3>
-    <p>Resets the property to the value established in a previous cascade layer. This is for advanced CSS layering.</p>
-    <div class="grid-container" style="grid-template-rows: revert-layer; grid-auto-rows: 50px;">
-        <div class="grid-item">Item 1 (demonstrates revert-layer)</div>
+    <p>
+        Resets the property to the value established in a previous cascade layer.
+        This is a more advanced feature used with CSS `@layer` at-rules.
+    </p>
+    <div class="grid-container" style="grid-template-rows: revert-layer; grid-auto-rows: 60px;">
+        <div class="grid-item">Item 1 (Reverts to previous cascade layer)</div>
         <div class="grid-item">Item 2</div>
     </div>
-    <p style="font-size: 0.8em;"><em>Note: `revert-layer` requires a more complex setup with `@layer` rules to demonstrate effectively. Visually, it might resemble `initial` or `none` in this isolated example.</em></p>
+    <p class="text-sm text-gray-500 italic">
+        <em>Note: `revert-layer` requires a more complex setup with `@layer` rules to
+        demonstrate effectively. Visually, it might resemble `initial` or `none` in this
+        isolated example.</em>
+    </p>
 
     <h3>`grid-template-rows: unset;`</h3>
-    <p>If the property is inherited, it behaves like `inherit`. Otherwise, it behaves like `initial`.</p>
-    <div class="grid-container" style="grid-template-rows: 100px 1fr;">
-        <div class="grid-item">Parent Grid Item</div>
-        <div class="grid-container" style="grid-template-rows: unset; border: 1px solid green; margin-top: 10px;">
-            <div class="grid-item">Child Item 1 (unsets to inherited if applicable, otherwise initial)</div>
-            <div class="grid-item">Child Item 2</div>
-        </div>
+    <p>
+        If the property is inherited (which `grid-template-rows` is not), it behaves like `inherit`.
+        Otherwise, it behaves like `initial`. Therefore, for `grid-template-rows`, `unset`
+        will behave like `initial` (i.e., `none`).
+    </p>
+    <div class="grid-container" style="grid-template-rows: unset; grid-auto-rows: 60px;">
+        <div class="grid-item">Item 1 (Unset: behaves like initial/none)</div>
+        <div class="grid-item">Item 2</div>
     </div>
-    <p style="font-size: 0.8em;"><em>Note: `grid-template-rows` is *not* an inherited property, so `unset` will behave like `initial` (i.e., `none`) in this case.</em></p>
-
+    <p class="text-sm text-gray-500 italic">
+        <em>Note: As `grid-template-rows` is not an inherited property, `unset` will
+        effectively reset it to `none`, similar to `initial`.</em>
+    </p>
 
 </body>
 </html>
